@@ -9,6 +9,10 @@ require_once("database.php");
 
 class CurrentSeminar {
 	
+	const CUR_TALK = 0;
+	const YEAR_ONLY = 1;
+	const YEAR_MONTH = 2;
+	
 	public function __construct() {	}
 	
 	public static function getOrganizationById(Database $db, $id)
@@ -87,7 +91,37 @@ class CurrentSeminar {
 	}
 	
 
-	//~ 
+
+
+
+	public static function getTalksListById(Database $db, $ids)
+	{
+		$talks=array();
+		// check if $ids is array, then get information foreach talk from $ids 
+		if (is_array($ids))
+		{
+			foreach($ids as $i)
+			{
+				$q=self::getTalkById($db, $i);
+				if ($q!=null)
+				{
+					$talks[] = $q;
+				};
+			};
+		}
+		else // otherwise, $ids is just one number, and so 
+		{
+			$q=self::getTalkById($db, $ids);
+			if ($q!=null)
+			{
+				$talks[] = $q;
+			};
+		};
+		return $talks;
+	}
+
+
+
 	public static function getTalkById(Database $db, $id)
 	{
 		// get the lattest seminar
@@ -167,7 +201,7 @@ class CurrentSeminar {
 	public static function getMonths($db, $year)
 	{
 		// get the lattest seminar
-		$query = "select month(date) as Month, year(date) as Year from Talks having Year={$year} order by date desc;";
+		$query = "select distinct month(date) as Month, year(date) as Year from Talks having Year={$year} order by date desc;";
 		$res = $db->run_query($query);
 		if ($res==false)
 		{
@@ -182,6 +216,51 @@ class CurrentSeminar {
 		};
 		return $months;
 	}
+	
+	
+	public static function getLastTalk($db)
+	{
+		$query = "select id from Talks order by date desc limit 1;";
+		$res = $db->run_query($query);
+		if ($res==false)
+		{
+			return null;
+		};
+		$id = mysql_result($res, 0, 0);
+		return self::getTalksListById($db, $id);
+	}
+	
+	public static function getTalksByYear($db, $year)
+	{
+		$query = "select id, year(date) as Year from Talks having year={$year} order by date desc;";
+		$res = $db->run_query($query);
+		if ($res==false)
+		{
+			return null;
+		};
+		$ids=array();
+		for($i=0; $i<mysql_num_rows($res); $i++)
+		{
+			$ids[] = mysql_result($res, $i, 0);
+		};
+		return self::getTalksListById($db, $ids);
+	}
+	
+	public static function getTalksByMonth($db, $year, $month)
+	{
+		$query = "select id, month(date) as Month, year(date) as Year from Talks having year={$year} and Month={$month} order by date desc;";
+		$res = $db->run_query($query);
+		if ($res==false)
+		{
+			return null;
+		};
+		$ids=array();
+		for($i=0; $i<mysql_num_rows($res); $i++)
+		{
+			$ids[] = mysql_result($res, $i, 0);
+		};
+		return self::getTalksListById($db, $ids);
+	}		
 	
 };
 
