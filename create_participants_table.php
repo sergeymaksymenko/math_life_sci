@@ -69,3 +69,9 @@ $db->close(); // close  database
 
 
 ?>
+
+
+Ира Москалева пишет уже несколько раз, что у нее проблемы с ордерами
+www.cstoreoffice.com:20445/?id=1146;
+www.cstoreoffice.com:20445/gasorderreport.php?id=1146;
+
