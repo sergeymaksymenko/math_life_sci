@@ -4,7 +4,6 @@ require_once("class.LangStr.php");
 require_once("class.MLSOrganization.php");
 require_once("class.MLSParticipant.php");
 require_once("class.MLSTalk.php");
-require_once("class.DbObject.php");
 require_once("database.php");
 
 class SeminarInfo {

@@ -73,7 +73,8 @@ class MLSTalk {
 
   	public function toHtml($lang)
 	{
-		print "<a class='TALK_DATE'>Date: {$this->date->format('Y-m-d, H:i')}</a><br>" .PHP_EOL;
+		$Date = new LangStr("Date", "Дата", "Дата");
+		print "<a class='TALK_DATE'>{$Date->s($lang)}: {$this->date->format('Y-m-d, H:i')}</a><br>" .PHP_EOL;
 		print "<a class='TALK_TITLE'>{$this->title->s($lang)}</a> <br>" .PHP_EOL;
 		foreach ($this->speakers as $sp)
 		{

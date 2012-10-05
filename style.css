@@ -7,13 +7,14 @@ body {
 background: #fff url(images/bg.jpg) repeat-x;
 font-family: Arial, Helvetica, sans-serif;
 font-size: 12px;
-line-height: 18px;
-color: #333333;;
+line-height: 20px;
+color: #333333;
 }
 
 img { border: none; }
 a { color: #0A6380; text-decoration: none; }
 a:hover { text-decoration: underline; color : #000; }
+
 
 #wrap {
 margin: 0 auto;
@@ -46,9 +47,14 @@ letter-spacing: -1px;
 line-height: 12px;
 }
 
-#content {
-padding: 10px 0;
+#pagetitle {
+color: #0A6380;
+font-size: 33px;
+letter-spacing: -1px;
 }
+
+
+
 
 .left {
 width: 568px;
@@ -89,3 +95,10 @@ color: #333;
 font-size: 11px;
 padding: 0 0 10px 0;
 }
+
+
+
+
+.TALK_TITLE {color:black; font-size:2.5ex; weight:bold}
+.SPEAKER_TITLE {color:blue; font-size:2ex; }
+.SPEAKER_ORG {font-size:1.5ex; }

@@ -2,7 +2,7 @@
 
 
 class CommentsType{
-	const INFO_DEFAULT=1;
+	const INFO_DEFAULT=0;
 	const INFO_NOTHING=0;
 	const INFO_HTML_COMMENTS=1;
 	const INFO_HTML_STYLE=2;
