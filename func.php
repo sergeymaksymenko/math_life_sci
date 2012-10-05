@@ -45,8 +45,8 @@ if ( !isset($page_title) )
 {
 	$page_title = new LangStr(
 		"Seminar 'Mathematics and life sciences'",
-		"Семінар 'Математика та науки про життя'",
-		"Семинар 'Математика и науки о жизни'");
+		"Семінар 'Математика та природничі науки'",
+		"Семинар 'Математика и естественные науки'");
 };
 
 // set page keywords
