@@ -99,12 +99,6 @@ $talks[] = makeTalk( array($part['Kalmykov_V'], $part['Romanenko_T'],$part['Vish
                    'Approximation of experimental data with parametrized curves',
                    '2012-03-02 16:00:00', '', 208, $orgs['imath']);
 
-$talks[] = makeTalk( array($part['Kalmykov_V'], $part['Romanenko_T'],$part['Vishnevskiy_V']),
-                   'Апроксимація експериментальних даних параметричено заданими кривими',
-                   'Аппроксимация экспериментальных данных параметрически заданными кривыми',
-                   'Approximation of experimental data with parametrized curves',
-                   '2012-03-02 16:00:00', '', 208, $orgs['imath']);
-
 $talks[] = makeTalk( array($part['Malanchuk_VO'], $part['Kryshchuk_MG'], $part['Kopchak_AV'], $part['Eshchenko_VO']),
                    'Імітаційне комп\'ютерне моделювання в щелепно-лицевій хірургії',
                    'Иммитационное и компьютерное моделирование в челюстно-лицевой хирургии',
@@ -119,10 +113,15 @@ $talks[] = makeTalk( $part['Lushchyk_U'],
                    '2012-05-25 16:00:00', '', 208, $orgs['imath']);
 
 
+$talks[] = makeTalk( $part['Shevchenko_G'],
+                   'Дробні та мультидробні процеси в природознавстві',
+                   'Дробные и мультидробные процессы в естествознании',
+                   'Fractional and multifractions processes in natural sciences', 
+                   '2012-10-05 16:30:00', '', 208, $orgs['imath']);
 
 
-print_r($talks);
 
+//print_r($talks);
 //print $talks[0]->listAll();
 
 

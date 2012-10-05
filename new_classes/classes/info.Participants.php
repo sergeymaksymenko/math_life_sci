@@ -78,6 +78,14 @@ $part['Zelinskiy_Y'] = makePart(
 
 
 
+$part['Shevchenko_G'] = makePart(
+	'G.','','Shevchenko',
+	'Г.','','Шевченко',
+	'Г.','','Шевченко',
+	1, '', '', $orgs['shevch_knu'] );
+
+
+
 
             
 $part['Romanenko_T'] = makePart(

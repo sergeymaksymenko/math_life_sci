@@ -14,7 +14,7 @@ class LangStr {
 	
 	public function listAll()
 	{
-		return "\"{$this->eng}\",\"{$this->ukr}\",\"{$this->rus}\"";
+		return "\"{$this->ukr}\",\"{$this->rus}\",\"{$this->eng}\"";
 	}
 
 	public function s($lang)

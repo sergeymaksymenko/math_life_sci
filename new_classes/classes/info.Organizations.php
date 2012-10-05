@@ -109,8 +109,8 @@ $orgs['inst_hydro']  = makeOrg(
 
 $orgs['shevch_knu']  = makeOrg(
                   'T. Shevchenko National University of Kyiv',
-                  '',
-                  '',
+                  'Київський національний університет ім. Тараса Шевченка',
+                  'Киевский национальный университет им. Тараса Шевченко',
                   '',
                   'Department of Mechanics and Mathematics, 03127 Academician Glushkov prospectus, 2, building 7');
 

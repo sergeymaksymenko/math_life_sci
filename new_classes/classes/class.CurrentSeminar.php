@@ -17,7 +17,7 @@ class CurrentSeminar {
 	
 	public static function getOrganizationById(Database $db, $id)
 	{
-		$query = "select * from Organizations where id={$id};";
+		$query = "select * from MLSSOrganizations where id={$id};";
 		$res = $db->run_query($query);
 		if ($res==false)
 		{
@@ -30,7 +30,7 @@ class CurrentSeminar {
 		};
 		$org = mysql_fetch_array($res, MYSQL_ASSOC);
 		$id=$org["id"];
-		$title = new LangStr($org["title_ukr"],$org["title_rus"],$org["title_eng"]);
+		$title = new LangStr($org["title_eng"],$org["title_ukr"],$org["title_rus"]);
 		$address = $org["address"];
 		$url = $org["url"];
 
@@ -41,7 +41,7 @@ class CurrentSeminar {
 
 	public static  function getParticipantById(Database $db, $id)
 	{
-		$query = "select * from Participants where id={$id};";
+		$query = "select * from MLSSParticipants where id={$id};";
 		$res = $db->run_query($query);
 		if ($res==false)
 		{
@@ -52,16 +52,16 @@ class CurrentSeminar {
 		{
 			return null;
 		};
-		$org = mysql_fetch_array($res, MYSQL_ASSOC);
-		$id=$org["id"];
-		$name = new LangStr($org["name_ukr"],$org["name_rus"],$org["name_eng"]);
-		$middlename = new LangStr($org["middlename_ukr"],$org["middlename_rus"],$org["middlename_eng"]);
-		$surname = new LangStr($org["surname_ukr"],$org["surname_rus"],$org["surname_eng"]);
-		$sex=$org["sex"];
+		$speaker = mysql_fetch_array($res, MYSQL_ASSOC);
+		$id=$speaker["id"];
+		$name = new LangStr($speaker["name_eng"],$speaker["name_ukr"],$speaker["name_rus"]);
+		$middlename = new LangStr($speaker["middlename_eng"],$speaker["middlename_ukr"],$speaker["middlename_rus"]);
+		$surname = new LangStr($speaker["surname_eng"],$speaker["surname_ukr"],$speaker["surname_rus"]);
+		$sex=$speaker["sex"];
 		
 		// get emails
 		$email=array();
-		$query = "select * from ParticipantEmails where part_id={$id};";
+		$query = "select * from MLSSParticipantEmails where part_id={$id};";
 		$res = $db->run_query($query);
 		if ($res!=false)
 		{
@@ -76,7 +76,7 @@ class CurrentSeminar {
 		
 		$homepage="";
 		$organization=array();
-		$query = "select * from ParticipantOrganizations where part_id={$id};";
+		$query = "select * from MLSSParticipantOrganizations where part_id={$id};";
 		$res = $db->run_query($query);
 		if ($res!=false)
 		{
@@ -125,7 +125,7 @@ class CurrentSeminar {
 	public static function getTalkById(Database $db, $id)
 	{
 		// get the lattest seminar
-		$query = "select * from Talks where id={$id};";
+		$query = "select * from MLSSTalks where id={$id};";
 		$res = $db->run_query($query);
 		if ($res==false)
 		{
@@ -140,7 +140,7 @@ class CurrentSeminar {
 		
 		$tt = mysql_fetch_array($res, MYSQL_ASSOC);
 		
-		$title = new LangStr($tt["title_ukr"],$tt["title_rus"],$tt["title_eng"]);
+		$title = new LangStr($tt["title_eng"],$tt["title_ukr"],$tt["title_rus"]);
 		$room=$tt["room"];
 		$date=$tt["date"];
 		
@@ -150,7 +150,7 @@ class CurrentSeminar {
 		
 		// get speakers
 		$speakers=array();
-		$query = "select * from TalkSpeakers where talk_id={$id};";
+		$query = "select * from MLSSTalkSpeakers where talk_id={$id};";
 		$res = $db->run_query($query);
 		if ($res!=false)
 		{
@@ -165,7 +165,7 @@ class CurrentSeminar {
 		$files=array();
 		// get files
 		$files=array();
-		$query = "select * from TalkFiles where talk_id={$id};";
+		$query = "select * from MLSSTalkFiles where talk_id={$id};";
 		$res = $db->run_query($query);
 		if ($res!=false)
 		{
@@ -182,7 +182,7 @@ class CurrentSeminar {
 	public static function getYears($db)
 	{
 		// get the lattest seminar
-		$query = "select distinct year(date) as Year from Talks order by date desc;";
+		$query = "select distinct year(date) as Year from MLSSTalks order by date desc;";
 		$res = $db->run_query($query);
 		if ($res==false)
 		{
@@ -201,7 +201,7 @@ class CurrentSeminar {
 	public static function getMonths($db, $year)
 	{
 		// get the lattest seminar
-		$query = "select distinct month(date) as Month, year(date) as Year from Talks having Year={$year} order by date desc;";
+		$query = "select distinct month(date) as Month, year(date) as Year from MLSSTalks having Year={$year} order by date desc;";
 		$res = $db->run_query($query);
 		if ($res==false)
 		{
@@ -220,7 +220,7 @@ class CurrentSeminar {
 	
 	public static function getLastTalk($db)
 	{
-		$query = "select id from Talks order by date desc limit 1;";
+		$query = "select id from MLSSTalks order by date desc limit 1;";
 		$res = $db->run_query($query);
 		if ($res==false)
 		{
@@ -232,7 +232,7 @@ class CurrentSeminar {
 	
 	public static function getTalksByYear($db, $year)
 	{
-		$query = "select id, year(date) as Year from Talks having year={$year} order by date desc;";
+		$query = "select id, year(date) as Year from MLSSTalks having year={$year} order by date desc;";
 		$res = $db->run_query($query);
 		if ($res==false)
 		{
@@ -248,7 +248,7 @@ class CurrentSeminar {
 	
 	public static function getTalksByMonth($db, $year, $month)
 	{
-		$query = "select id, month(date) as Month, year(date) as Year from Talks having year={$year} and Month={$month} order by date desc;";
+		$query = "select id, month(date) as Month, year(date) as Year from MLSSTalks having year={$year} and Month={$month} order by date desc;";
 		$res = $db->run_query($query);
 		if ($res==false)
 		{
