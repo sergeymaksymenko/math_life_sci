@@ -6,7 +6,7 @@ require_once("classes/class.SeminarInfo.php");
 
 // change here basepath
 //$base_path="http://www.imath.kiev.ua/~maks/mathmed/";
-$base_path="http://localhost/eumls/new_classes/";
+$base_path=""; //"http://localhost/eumls/new_classes/";
 //================================
 $lib_path="classes/";
 //===========================================//
