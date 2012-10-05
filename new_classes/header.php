@@ -1,30 +1,47 @@
 <?php
 $talks=array();
-$action=CurrentSeminar::CUR_TALK;
+$action=SeminarInfo::CUR_TALK;
 if ( isset($_REQUEST["y"]) && isset($_REQUEST["m"]) )
 { 
-	$action=CurrentSeminar::YEAR_MONTH;
-	$talks = CurrentSeminar::getTalksByMonth($db, $_REQUEST["y"], $_REQUEST["m"]);
+	$action=SeminarInfo::YEAR_MONTH;
+	$talks = SeminarInfo::getTalksByMonth($db, $_REQUEST["y"], $_REQUEST["m"]);
 }
 elseif ( isset($_REQUEST["y"]) )
 {
-	$action=CurrentSeminar::YEAR_ONLY;
-	//$talks = CurrentSeminar::getTalksByYear($db, $_REQUEST["y"]);	
-	$talks = CurrentSeminar::getLastTalk($db);
+	$action=SeminarInfo::YEAR_ONLY;
+	//$talks = SeminarInfo::getTalksByYear($db, $_REQUEST["y"]);	
+	$talks = SeminarInfo::getLastTalk($db);
 };
 
 if ( count($talks) == 0 )
 {
-	$action=CurrentSeminar::CUR_TALK;
-	$talks = CurrentSeminar::getLastTalk($db);
+	$action=SeminarInfo::CUR_TALK;
+	$talks = SeminarInfo::getLastTalk($db);
 };
 
-$years = CurrentSeminar::getYears($db);
+$years = SeminarInfo::getYears($db);
 
-$MonthNames=array('January', 'February', 'March', 'April', 'May', 'June', 'July',
+$MonthNamesEng=array('January', 'February', 'March', 'April', 'May', 'June', 'July',
 'August', 'September', 'October', 'November', 'December');
+$MonthNamesUkr=array('Січень', 'Лютий', 'Березень', 'Квітень', 'Травень', 'Червень',
+'Липень', 'Серпень', 'Вересень', 'Жовтень', 'Листопад', 'Грудень');
+
+$MonthNamesRus=array('Январь','Февраль','Март','Апрель','Май','Июнь','Июль','Август',
+'Сентябрь','Октябрь','Ноябрь','Декабрь');
+
+$MonthsNames=array();
+for($i=0; $i<12;$i++)
+{
+	$MonthsNames[] = new LangStr($MonthNamesEng[$i], $MonthNamesUkr[$i], $MonthNamesRus[$i]);
+};
 
 //$languages=array("ua", "ru", "en");
+
+
+$Categories = new LangStr("Categories", "Категорії", "Категории");
+$Archive = new LangStr("Archive", "Архів", "Архив");
+$CurSeminar = new LangStr("Current seminar", "Поточний семінар", "Текущий семинар");
+
 
 ?>
 
@@ -34,6 +51,7 @@ $MonthNames=array('January', 'February', 'March', 'April', 'May', 'June', 'July'
 <?php
 $cnt_file_name="counter.txt";
 $visits_ip_file_name="visits_ip.txt";
+
 
 $handle = fopen($cnt_file_name, 'r');
 if ($handle != false) {
@@ -145,25 +163,25 @@ if ($handle != false) {
 		
 		<div class="right">
 	
-			<h2>Categories</h2>
+			<h2><?=$Categories->s($lang)?></h2>
 			<ul>
-				<li><a href='index.php?lang=<?=$lang?>'>Current seminar</a></li>
+				<li><a href='index.php?lang=<?=$lang?>'><?=$CurSeminar->s($lang)?></a></li>
 			</ul>
 			
-			<h2>Archive</h2>
+			<h2><?=$Archive->s($lang)?></h2>
 				<ul>
 			<?php
 			foreach($years as $y)
 			{
-				print "\t<li><a href='index.php?{$lang}&y={$y}'>{$y}</a></li>" . PHP_EOL;
-				if ($action == CurrentSeminar::CUR_TALK) continue;
+				print "\t<li><a href='index.php?lang={$lang}&y={$y}'>{$y}</a></li>" . PHP_EOL;
+				if ($action == SeminarInfo::CUR_TALK) continue;
 				if ($_REQUEST["y"] == $y)
 				{
-					$months = CurrentSeminar::getMonths($db, $y);
+					$months = SeminarInfo::getMonths($db, $y);
 					print "\t<ul>".PHP_EOL;
 					foreach($months as $m)
 					{
-						print "\t\t<li><a href='index.php?lang={$lang}&y={$y}&m={$m}'>{$MonthNames[$m-1]}</a></li>".PHP_EOL;
+						print "\t\t<li><a href='index.php?lang={$lang}&y={$y}&m={$m}'>{$MonthsNames[$m-1]->s($lang)}</a></li>".PHP_EOL;
 					};
 					print "\t</ul>".PHP_EOL;
 				};

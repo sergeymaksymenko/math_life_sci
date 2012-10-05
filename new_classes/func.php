@@ -2,9 +2,7 @@
 
 require_once("classes/class.MLSTalk.php");
 require_once("classes/database.php");
-
-
-require_once("classes/class.CurrentSeminar.php");
+require_once("classes/class.SeminarInfo.php");
 
 // change here basepath
 //$base_path="http://www.imath.kiev.ua/~maks/mathmed/";
@@ -27,6 +25,7 @@ $db->open();
 
 // list of languages
 $languages=array("en", "ua", "ru");
+//$languages=array("en", "ua");
 
 // choose language of the page
 if ( isset($_REQUEST["lang"]) )

@@ -57,6 +57,14 @@ $orgs['delta'] = makeOrg(
                   'Научное государственное предприятие \'Дельта\'',
                   '','');
                   
+$orgs['shevch_knu']  = makeOrg(
+                  'T. Shevchenko National University of Kyiv',
+                  'Київський національний університет ім. Тараса Шевченка',
+                  'Киевский национальный университет им. Тараса Шевченко',
+                  '',
+                  'Department of Mechanics and Mathematics, 03127 Academician Glushkov prospectus, 2, building 7');
+
+                  
 
 $orgs['bogomolets_nmu'] = makeOrg(
                   'Bogomolets National Medical University',
@@ -107,12 +115,6 @@ $orgs['inst_hydro']  = makeOrg(
                   '',
                   'Department of Vortex Motion');
 
-$orgs['shevch_knu']  = makeOrg(
-                  'T. Shevchenko National University of Kyiv',
-                  'Київський національний університет ім. Тараса Шевченка',
-                  'Киевский национальный университет им. Тараса Шевченко',
-                  '',
-                  'Department of Mechanics and Mathematics, 03127 Academician Glushkov prospectus, 2, building 7');
 
 
 
