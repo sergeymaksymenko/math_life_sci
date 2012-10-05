@@ -5,6 +5,20 @@ require_once("class.MLSOrganization.php");
 require_once("class.MLSParticipant.php");
 //require_once("class.DbObject.php");
 
+class MLSTalkFile {
+	public $file;
+	public $descr;
+	public function __construct($file, $descr)
+	{
+		$this->file = $file;
+		$this->descr = $descr;
+	}
+	
+	public function listAll()
+	{
+		return "{$this->file},{$this->descr}";
+	}
+};
 
 class MLSTalk {
 
@@ -36,7 +50,7 @@ class MLSTalk {
 		$this->date = new DateTime($date);
 		$this->place = $place;
 		$this->room = $room;
-				
+
 		if (is_array($files))
 		{
 			$this->files = $files;
@@ -76,6 +90,7 @@ class MLSTalk {
 		$Date = new LangStr("Date", "Дата", "Дата");
 		print "<a class='TALK_DATE'>{$Date->s($lang)}: {$this->date->format('Y-m-d, H:i')}</a><br>" .PHP_EOL;
 		print "<a class='TALK_TITLE'>{$this->title->s($lang)}</a> <br>" .PHP_EOL;
+		
 		foreach ($this->speakers as $sp)
 		{
 			print "<a class='SPEAKER_TITLE'>{$sp->name->s($lang)} {$sp->surname->s($lang)}</a>" .PHP_EOL;
@@ -93,6 +108,20 @@ class MLSTalk {
 			print "{$sp->organization[$cnt-1]->title->s($lang)})</a>" . PHP_EOL;
 			print "<br>" . PHP_EOL;
 		}
+		if ( count($this->files)>0 )
+		{
+			//print "<span id='abstracts'>";
+			foreach($this->files as $f)
+			{
+				//~ print "<a href=\"{$f->file}\"><font color='#FF4800'>{$f->descr}</font></a>";
+				print "<a href=\"{$f->file}\"><span id='abstract'>{$f->descr}</span></a>";
+				//~ if  ($f->file!="")
+				//~ {
+					//~ print "<a href=\"{$f->file}\">{$f->descr}</a> ";
+				//~ };
+			};
+			print "<br>".PHP_EOL;
+		};		
 		//print "Place: <a href='{$this->place->url}'>{$this->place->title->s($lang)}</a>, {$this->place->address} <br>" .PHP_EOL;
 		//print "Room: {$this->room} <br>" .PHP_EOL;
 	}

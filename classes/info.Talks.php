@@ -12,7 +12,7 @@ require_once("info.Participants.php");
 
 function makeTalk($speakers, $ukrTitle, $rusTitle, $engTitle, $date, $files, $room, $place)
 {
-	return new MLSTalk($speakers, new LangStr($engTitle, $ukrTitle, $rusTitle), $date, $place, $room, $files);	
+	return new MLSTalk($speakers, new LangStr($engTitle, $ukrTitle, $rusTitle), $date, $place, $room, new MLSTalkFile($files, 'abstract'));	
 };
 
 
@@ -26,19 +26,19 @@ $talks[] = makeTalk( $part['Semenov_V'],
                    'Автоматичне розпізнавання сухих хрипів за допомогою автокореляційної функції',
                    'Автоматическое распознавание сухих хрипов с помощью автокорреляционной функции',
                    'Automatical recognitions of dry wheezes via autocorrelation function',
-                   '2011-02-18 16:30:00', '', 208, $orgs['imath']);
+                   '2011-02-18 16:30:00', 'abstracts/file_2011_02_18_Semenov.pdf', 208, $orgs['imath']);
 
 $talks[] = makeTalk( array($part['Lushchyk_U'], $part['Novytskiy_V']),
                    'Математичні підходи до прикладної гемодинаміки',
                    'Математические подходы к прикладной гемодинамике',
                    'Mathematical approaches to applied hemodynamics',
-                   '2011-03-11 16:30:00', '', 208, $orgs['imath']);
+                   '2011-03-11 16:30:00', 'abstracts/file_2011_03_11_LushchikNovitskiy.pdf', 208, $orgs['imath']);
 
 $talks[] = makeTalk( $part['Gerasymenko_V'],
                    'Гiдродинамiчна границя нелiнiйних кiнетичних рiвнянь',
                    'Гидродинамическая граница нелинейных кинетичских уравнений',
                    'Hydrodynamic limit of nonlinear kinetic equations',
-                   '2011-03-25 16:30:00', '', 208, $orgs['imath']);
+                   '2011-03-25 16:30:00', 'abstracts/file_2011_03_25_Gerasymenko.pdf', 208, $orgs['imath']);
                    
 $talks[] = makeTalk( $part['Nastenko_E'],
                    'Проблемні питання моделювання нелінійних аспектів гемодинаміки',
@@ -51,19 +51,19 @@ $talks[] = makeTalk( $part['Burylko_O'],
                    'Нейронна модель Ходжкіна-Хакслі (Hodgkin-Huxley). Наслідки та застосування',
                    'Нейронная модель Ходжкина-Хаксли (Hodgkin-Huxley). Следствия и применения',
                    'Modelling problems of nonlinear aspects of hemodynamics',
-                   '2011-04-29 16:00:00', '', 208, $orgs['imath']);
+                   '2011-04-29 16:00:00', 'abstracts/file_2011_04_29_Burylko.pdf', 208, $orgs['imath']);
                    
 $talks[] = makeTalk( $part['Bubnov_R'],
                    'Можливості фрактального аналізу медичних діагностичних зображень. Первинний клінічний досвід',
                    'Возможности фрактального анализа медицинских диагностических изображений. Первоначальный клинический опыт',
                    'Abilities of fractal analysis of medical diagnostic images. Primary clinical experience',
-                   '2011-05-20 16:00:00', '', 208, $orgs['imath']);
+                   '2011-05-20 16:00:00', 'abstracts/file_2011_05_20_Bubnov.pdf', 208, $orgs['imath']);
                    
 $talks[] = makeTalk( $part['Nastenko_E'],
                    'Біомедицинські застосування теорії самоогранізованої критичності',
                    'Биомедицинские применения теории самоогранизованной критичности',
                    'Biomedical application of selforganized criticity theory',
-                   '2011-09-16 16:00:00', '', 208, $orgs['imath']);
+                   '2011-09-16 16:00:00', 'abstracts/file_2011_09_16_Nastenko.pdf', 208, $orgs['imath']);
                    
 $talks[] = makeTalk( $part['Kalmykov_V'],                   
                    'Відрізок прямої та дуга кривої в цифрових зображеннях. . Математичні та нейрофізіологічні аспекти',
@@ -90,7 +90,7 @@ $talks[] = makeTalk( array($part['Lushchyk_U'], $part['Novytskiy_V']),
                    'Моделі аналітичної механіки у дослідженні судинної системи',
                    'Модели аналитической механики в исследовании сосудистой системы',
                    'Analytical mechanics models in the study of Circulatory system',
-                   '2012-02-17 16:00:00', '', 208, $orgs['imath']);
+                   '2012-02-17 16:00:00', 'abstracts/file_2012_02_17_Novitskiy_Lushchik.pdf', 208, $orgs['imath']);
 
 
 $talks[] = makeTalk( array($part['Kalmykov_V'], $part['Romanenko_T'],$part['Vishnevskiy_V']),

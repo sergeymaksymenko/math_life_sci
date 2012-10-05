@@ -30,6 +30,13 @@ foreach ($talks as $tt)
     {
 		print "INSERT INTO MLSSTalkSpeakers VALUES({$tt->id}, {$sp->id});" . PHP_EOL;
 	};
+	foreach($tt->files as $f)
+    {
+		if ( $f->file!='' )
+		{
+			print "INSERT INTO MLSSTalkFiles VALUES({$tt->id}, \"{$f->file}\",  \"{$f->descr}\");" . PHP_EOL;
+		};
+	};	
 };
 
 

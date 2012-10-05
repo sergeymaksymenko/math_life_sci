@@ -171,7 +171,7 @@ class SeminarInfo {
 			$cnt=mysql_num_rows($res);
 			for ($i=0; $i<$cnt; $i++)
 			{
-				$files[] = mysql_result($res, $i, "file");
+				$files[] = new MLSTalkFile ( mysql_result($res, $i, "file"), mysql_result($res, $i, "description") );
 			};
 		};		
 		return new MLSTalk($speakers, $title, $date, $place, $room, $files);

@@ -1,0 +1,1 @@
+mysqldump eumls -u eumls -p > eumls.sql
