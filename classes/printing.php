@@ -1,53 +1,97 @@
 <?php
 
+
+class CommentsType{
+	const INFO_DEFAULT=1;
+	const INFO_NOTHING=0;
+	const INFO_HTML_COMMENTS=1;
+	const INFO_HTML_STYLE=2;
+};
+
+
+
+
 // print messages
-function printAction($str, $debug=false, $OUTPUT_IN_COMMENTS=true)
+function printAction($str, $debug=false, $OUTPUT_IN_COMMENTS=CommentsType::INFO_DEFAULT)
 {
 	//if ($debug) if ($str!="") echo "<a class='ACTION'>" . $str . "</a><br>\n";
 	if ($debug && ( strlen($str)>0 ))
 	{
-		if ($OUTPUT_IN_COMMENTS) echo "\n<!-- ACTION: {$str} -->\n";
-		else echo "<a class='ACTION'>{$str}</a><br>\n";
+		switch ($OUTPUT_IN_COMMENTS) {
+			case (CommentsType::INFO_HTML_COMMENTS):
+				echo "\n<!-- ACTION: {$str} -->\n";
+				break;
+			case (CommentsType::INFO_HTML_STYLE):
+				echo "<a class='ACTION'>{$str}</a><br>\n";
+				break;
+			default:
+				break;
+		};
 	}
 };
 
 
-function printError($str, $debug=false, $OUTPUT_IN_COMMENTS=true)
+function printError($str, $debug=false, $OUTPUT_IN_COMMENTS=CommentsType::INFO_DEFAULT)
 {
 	if ($str!="")
 	{
-		if ($OUTPUT_IN_COMMENTS) echo "\n<!-- ERROR: {$str} -->\n";
-		else echo "<a class='ERROR'>{$str}</a><br>\n";
+		switch ($OUTPUT_IN_COMMENTS) {
+			case (CommentsType::INFO_HTML_COMMENTS):
+				echo "\n<!-- ERROR: {$str} -->\n";
+				break;
+			case (CommentsType::INFO_HTML_STYLE):
+				echo "<a class='ERROR'>{$str}</a><br>\n";
+				break;
+		};
 	}
 };
 
-function printSuccess($str, $debug=false, $OUTPUT_IN_COMMENTS=true)
+function printSuccess($str, $debug=false, $OUTPUT_IN_COMMENTS=CommentsType::INFO_DEFAULT)
 {
 	if ($debug && ( strlen($str)>0 ))
 	{
-		if ($OUTPUT_IN_COMMENTS) echo "\n<!-- SUCCESS: {$str} -->\n";
-		else echo "<a class='SUCCESS'>{$str}</a><br>\n";
+		switch ($OUTPUT_IN_COMMENTS) {
+			case (CommentsType::INFO_HTML_COMMENTS):
+				echo "\n<!-- SUCCESS: {$str} -->\n";
+				break;
+			case (CommentsType::INFO_HTML_STYLE):
+				echo "<a class='SUCCESS'>{$str}</a><br>\n";
+				break;
+		};
 	};
 };
 
 
-function printQuery($str, $debug=false, $OUTPUT_IN_COMMENTS=true)
+function printQuery($str, $debug=false, $OUTPUT_IN_COMMENTS=CommentsType::INFO_DEFAULT)
 {
 	if ($debug && ( strlen($str)>0 ))
 	{
-		if ($OUTPUT_IN_COMMENTS) echo "\n<!-- QUERY: {$str} -->\n";
-		else echo "Query: <a class='Query'>{$str}</a><br>\n";
+		switch ($OUTPUT_IN_COMMENTS) {
+			case (CommentsType::INFO_HTML_COMMENTS):
+				echo "\n<!-- QUERY: {$str} -->\n";
+				break;
+			case (CommentsType::INFO_HTML_STYLE):
+				echo "Query: <a class='Query'>{$str}</a><br>\n";
+				break;
+		};
 	}
 };
 
-function printInfo($str, $debug=false, $OUTPUT_IN_COMMENTS=true)
+function printInfo($str, $debug=false, $OUTPUT_IN_COMMENTS=CommentsType::INFO_DEFAULT)
 {
 	if ($debug && ( strlen($str)>0 ))
 	{
-		if ($OUTPUT_IN_COMMENTS) echo "\n<!-- INFO: {$str} -->\n";
-		else echo ">> <a class='INFO'>{$str}</a><br>\n";
+		switch ($OUTPUT_IN_COMMENTS) {
+			case (CommentsType::INFO_HTML_COMMENTS):
+				echo "\n<!-- INFO: {$str} -->\n";
+				break;
+			case (CommentsType::INFO_HTML_STYLE):
+				echo ">> <a class='INFO'>{$str}</a><br>\n";
+				break;
+		};
 	};
 };
+
 
 
 

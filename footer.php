@@ -71,15 +71,3 @@ if ($handle != false) {
 ?>
 
 <div id="counter" style="text-align:right; font-size:0.5em;">Page visits counter: <?=$cnt?></div>
-
-
-
-</div>
-
-
-
-
-
-
-</body>
-</html>
