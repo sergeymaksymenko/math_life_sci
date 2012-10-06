@@ -2,26 +2,52 @@
 
 require_once("classes/class.MLSTalk.php");
 require_once("classes/database.php");
-require_once("classes/class.SeminarInfo.php");
 
 // change here basepath
 //$base_path="http://www.imath.kiev.ua/~maks/mathmed/";
 $base_path=""; //"http://localhost/eumls/new_classes/";
 //================================
-$lib_path="classes/";
+//$lib_path="classes/";
+
 //===========================================//
-$host="localhost";
-$user_name="eumls";
-$user_passwd="eumlsdbpass";
-$db_name="eumls";
 
+//=== if we use mysql_database
 
-$connData = new ConnectionData($host, $user_name, $user_passwd);
-$db = new Database($db_name, $connData);
-$db->debug_on();
-$db->connect();
-$db->open();
+$use_mysql=0;
 
+if ($use_mysql==0)
+{
+	require_once("classes/class.SeminarInfo.php");
+	$host="localhost";
+	$user_name="eumls";
+	$user_passwd="eumlsdbpass";
+	$db_name="eumls";
+	$connData = new ConnectionData($host, $user_name, $user_passwd);
+	$db = new Database($db_name, $connData);
+	$db->debug_on();
+	$db->connect();
+	$db->open();
+}
+else
+{ 
+	//=== if we use sqllite_database
+    require_once("classes/class.SeminarInfo_sqlite.php");	
+	$db_name="dump/eumls1";
+	$db = new SQLite3($db_name);
+};
+//~ 
+
+//~ $db_name="dump/eumls1";
+//~ 
+//~ if ($db = new SQLite3($db_name))
+//~ {
+	//~ print "Database {$db_name} is opened!\n";
+//~ }
+//~ else
+//~ {
+	//~ print "Error opening database {$db_name}\n";
+	//~ die();
+//~ };
 
 // list of languages
 $languages=array("en", "ua", "ru");
@@ -78,23 +104,25 @@ $cur_script = $_SERVER['PHP_SELF'];
 
 $talks=array();
 $action=SeminarInfo::CUR_TALK;
-if ( isset($_REQUEST["y"]) && isset($_REQUEST["m"]) )
-{ 
-	$action=SeminarInfo::YEAR_MONTH;
-	$talks = SeminarInfo::getTalksByMonth($db, $_REQUEST["y"], $_REQUEST["m"]);
-}
-elseif ( isset($_REQUEST["y"]) )
-{
-	$action=SeminarInfo::YEAR_ONLY;
-	//$talks = SeminarInfo::getTalksByYear($db, $_REQUEST["y"]);	
-	$talks = SeminarInfo::getLastTalk($db);
-};
+$talks = SeminarInfo::getLastTalk($db);
 
-if ( count($talks) == 0 )
-{
-	$action=SeminarInfo::CUR_TALK;
-	$talks = SeminarInfo::getLastTalk($db);
-};
+//~ if ( isset($_REQUEST["y"]) && isset($_REQUEST["m"]) )
+//~ { 
+	//~ $action=SeminarInfo::YEAR_MONTH;
+	//~ $talks = SeminarInfo::getTalksByMonth($db, $_REQUEST["y"], $_REQUEST["m"]);
+//~ }
+//~ elseif ( isset($_REQUEST["y"]) )
+//~ {
+	//~ $action=SeminarInfo::YEAR_ONLY;
+	//~ //$talks = SeminarInfo::getTalksByYear($db, $_REQUEST["y"]);	
+	//~ $talks = SeminarInfo::getLastTalk($db);
+//~ };
+//~ 
+//~ if ( count($talks) == 0 )
+//~ {
+	//~ $action=SeminarInfo::CUR_TALK;
+	//~ $talks = SeminarInfo::getLastTalk($db);
+//~ };
 
 $years = SeminarInfo::getYears($db);
 

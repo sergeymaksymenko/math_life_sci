@@ -1,5 +1,5 @@
 # create database 
-DROP DATABASE eumls;
+DROP DATABASE if exists eumls;
 CREATE DATABASE IF NOT EXISTS eumls DEFAULT CHARACTER SET utf8;
 
 # create user
