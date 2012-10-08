@@ -51,6 +51,9 @@ else
 
 // list of languages
 $languages=array("en", "ua", "ru");
+
+$lang_pref=array("en"=>"eng", "ua"=>"ukr", "ru"=>"rus");
+
 //$languages=array("en", "ua");
 
 // choose language of the page
@@ -63,6 +66,8 @@ else
 	$lang=$languages[0];
 };
 
+
+$lang3 = $lang_pref[$lang];
 
 
 
@@ -103,26 +108,37 @@ $cur_script = $_SERVER['PHP_SELF'];
 
 
 $talks=array();
-$action=SeminarInfo::CUR_TALK;
-$talks = SeminarInfo::getLastTalk($db);
+//$action=SeminarInfo::CUR_TALK;
+//$talks = SeminarInfo::getLastTalk($db);
 
-if ( isset($_REQUEST["y"]) && isset($_REQUEST["m"]) )
-{ 
-	$action=SeminarInfo::YEAR_MONTH;
-	$talks = SeminarInfo::getTalksByMonth($db, $_REQUEST["y"], $_REQUEST["m"]);
-}
-elseif ( isset($_REQUEST["y"]) )
+if ( isset($_REQUEST["a"]) )
 {
-	$action=SeminarInfo::YEAR_ONLY;
-	//$talks = SeminarInfo::getTalksByYear($db, $_REQUEST["y"]);	
-	$talks = SeminarInfo::getLastTalk($db);
+	$action=SeminarInfo::ALL_SEMINARS;
+} 
+else
+{
+	if ( isset($_REQUEST["y"]) && isset($_REQUEST["m"]) )
+	{ 
+		$action=SeminarInfo::YEAR_MONTH;
+		$talks = SeminarInfo::getTalksByMonth($db, $_REQUEST["y"], $_REQUEST["m"]);
+	}
+	elseif ( isset($_REQUEST["y"]) )
+	{
+		$action=SeminarInfo::YEAR_ONLY;
+		//$talks = SeminarInfo::getTalksByYear($db, $_REQUEST["y"]);	
+		$talks = SeminarInfo::getLastTalk($db);
+	};
+
+	if ( count($talks) == 0 )
+	{
+		$action=SeminarInfo::CUR_TALK;
+		$talks = SeminarInfo::getLastTalk($db);
+	};
 };
 
-if ( count($talks) == 0 )
-{
-	$action=SeminarInfo::CUR_TALK;
-	$talks = SeminarInfo::getLastTalk($db);
-};
+
+
+
 
 $years = SeminarInfo::getYears($db);
 
@@ -143,6 +159,7 @@ for($i=0; $i<12;$i++)
 $Categories = new LangStr("Categories", "Категорії", "Категории");
 $Archive = new LangStr("Archive", "Архів", "Архив");
 $CurSeminar = new LangStr("Current seminar", "Поточний семінар", "Текущий семинар");
+$AllSeminars = new LangStr("All seminars", "Всі семінари", "Все семинары");
 $Place = new LangStr("Place", "Місце проведення", "Место проведения");
 $Address = new LangStr(
 	"Institute of Mathematics of NAS of Ukraine, Tereshchenkivs'ka str., 3, Kyiv, Ukraine",
@@ -195,9 +212,22 @@ function get_ip_address() {
 }
 
 // save counter to the file
+//~ $handle = fopen($visits_ip_file_name, 'a+');
+//~ if ($handle != false) {
+	//~ fwrite($handle, "{$cnt}:\tip: ".get_ip_address(). "\tdate: ". date('Y-m-d G:i:s'). PHP_EOL);
+	//~ fclose($handle);
+//~ };
+
+// save counter to the file
 $handle = fopen($visits_ip_file_name, 'a+');
 if ($handle != false) {
-	fwrite($handle, "{$cnt}:\tip: ".get_ip_address(). "\tdate: ". date('Y-m-d G:i:s'). PHP_EOL);
+	$ipaddr=get_ip_address();
+	fwrite($handle, "{$dir}" .
+	                "{$cnt}=\tip=<a href=\"http://www.ipchecking.com/?ip={$ipaddr}&check=Lookup\" target=\"_blank\">{$ipaddr}</a>".
+	                ", date=". date('Y-m-d G:i:s') .
+	                ", lang=" . $lang .
+	                 ( ( isset($param) ) ? ", param=".$param : "" ) .
+	                 PHP_EOL);
 	fclose($handle);
 };
 

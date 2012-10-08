@@ -11,6 +11,7 @@ class SeminarInfo {
 	const CUR_TALK = 0;
 	const YEAR_ONLY = 1;
 	const YEAR_MONTH = 2;
+	const ALL_SEMINARS = 3;
 	
 	public function __construct() {	}
 	
@@ -259,7 +260,64 @@ class SeminarInfo {
 			$ids[] = mysql_result($res, $i, 0);
 		};
 		return self::getTalksListById($db, $ids);
-	}		
+	}
+	
+	
+	
+	
+	public static function printAllSeminarsShortList1($db, $lang)
+	{
+		
+		$query = "select date, group_concat(' ', name) as speakers, title from (" .
+		             "select t.id, concat(p.name_{$lang}, ' ', p.surname_{$lang}) as name, " . 
+		                     "t.title_{$lang} as title, date_format(t.date, '%Y-%m-%d') as date from MLSSTalks as t " .
+                      "join MLSSTalkSpeakers as s on t.id = s.talk_id " .
+                      "join MLSSParticipants as p on p.id = s.part_id "  .
+                 ") as q group by id order by date desc;";
+                 
+		//print $query;
+		$res = $db->run_query($query);
+		if ($res==false)
+		{
+			return null;
+		};
+		print "<table border='1'>" .PHP_EOL;
+		print "<tr><th>Date</th><th>Speakers</th><th>Title</th></tr>". PHP_EOL;
+		while( $row = mysql_fetch_array($res, MYSQL_ASSOC) )
+		{
+			print "<tr>";
+			print "<td>" . $row["date"] . "</td>";
+			print "<td align='left'>" . $row["speakers"] . "</td>";
+			print "<td>" . $row["title"] . "</td>";
+			print "</tr>". PHP_EOL;
+		};
+		print "</table>" .PHP_EOL;
+	}
+	
+	public static function printAllSeminarsShortList($db, $lang)
+	{
+		
+		$query = "select date, group_concat(' ', name) as speakers, title from (" .
+		             "select t.id, concat(p.name_{$lang}, ' ', p.surname_{$lang}) as name, " . 
+		                     "t.title_{$lang} as title, date_format(t.date, '%Y-%m-%d') as date from MLSSTalks as t " .
+                      "join MLSSTalkSpeakers as s on t.id = s.talk_id " .
+                      "join MLSSParticipants as p on p.id = s.part_id "  .
+                 ") as q group by id order by date desc;";
+                 
+		//print $query;
+		$res = $db->run_query($query);
+		if ($res==false)
+		{
+			return null;
+		};
+		$semlist = array();
+		while( $row = mysql_fetch_array($res, MYSQL_ASSOC) )
+		{
+			$semlist[] = $row;
+		};
+		return $semlist;
+	}
+
 	
 };
 

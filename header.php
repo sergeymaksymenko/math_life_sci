@@ -11,7 +11,8 @@
 	<div id="languages" style="text-align:right">
 
 	<?php
-	$params = ( isset($_REQUEST["y"]) ? "&y=".$_REQUEST["y"] : "" ) .
+	$params = ( isset($_REQUEST["a"]) ? "&a" : "" ) .
+	          ( isset($_REQUEST["y"]) ? "&y=".$_REQUEST["y"] : "" ) .
 	          ( isset($_REQUEST["m"]) ? "&m=".$_REQUEST["m"] : "" );
 	
 	foreach($languages as $l) : ?>
@@ -42,11 +43,27 @@
 			
 			
 			<?php
-			foreach($talks as $t)
+
+			if ($action==SeminarInfo::ALL_SEMINARS)
 			{
-				print "<div class=\"articles\">" . PHP_EOL;
-				$t->toHtml($lang); // include("contents.php"); 
-				print "</div><br>" .PHP_EOL;
+				$semlist = SeminarInfo::printAllSeminarsShortList($db, $lang3);
+				print "<ul align='left'>" .PHP_EOL;
+				foreach ($semlist as $row)
+				{
+					print "<li><strong>" . $row["date"] . "</strong><br>" .
+					      $row["speakers"] . 
+					       "<br><i>" . $row["title"] . "</i></li>". PHP_EOL;
+				};
+				print "</ul>" .PHP_EOL;
+			}
+			else
+			{
+				foreach($talks as $t)
+				{
+					print "<div class=\"articles\">" . PHP_EOL;
+					$t->toHtml($lang); // include("contents.php"); 
+					print "</div><br>" .PHP_EOL;
+				};
 			};
 			?>		
 		</div>
@@ -56,6 +73,7 @@
 			<h2><?=$Categories->s($lang)?></h2>
 			<ul>
 				<li><a href='index.php?lang=<?=$lang?>'><?=$CurSeminar->s($lang)?></a></li>
+				<li><a href='index.php?lang=<?=$lang?>&a'><?=$AllSeminars->s($lang)?></a></li>
 			</ul>
 			
 			<h2><?=$Archive->s($lang)?></h2>
@@ -64,9 +82,9 @@
 			foreach($years as $y)
 			{
 				print "\t<li><a href='index.php?lang={$lang}&y={$y}'>{$y}</a></li>" . PHP_EOL;
-				if ($action == SeminarInfo::CUR_TALK) continue;
-				if ($_REQUEST["y"] == $y)
+				if ($action == SeminarInfo::YEAR_MONTH || $action == SeminarInfo::YEAR_ONLY )
 				{
+					if ( $_REQUEST["y"] != $y ) continue;
 					$months = SeminarInfo::getMonths($db, $y);
 					print "\t<ul>".PHP_EOL;
 					foreach($months as $m)
