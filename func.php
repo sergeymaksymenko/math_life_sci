@@ -106,23 +106,23 @@ $talks=array();
 $action=SeminarInfo::CUR_TALK;
 $talks = SeminarInfo::getLastTalk($db);
 
-//~ if ( isset($_REQUEST["y"]) && isset($_REQUEST["m"]) )
-//~ { 
-	//~ $action=SeminarInfo::YEAR_MONTH;
-	//~ $talks = SeminarInfo::getTalksByMonth($db, $_REQUEST["y"], $_REQUEST["m"]);
-//~ }
-//~ elseif ( isset($_REQUEST["y"]) )
-//~ {
-	//~ $action=SeminarInfo::YEAR_ONLY;
-	//~ //$talks = SeminarInfo::getTalksByYear($db, $_REQUEST["y"]);	
-	//~ $talks = SeminarInfo::getLastTalk($db);
-//~ };
-//~ 
-//~ if ( count($talks) == 0 )
-//~ {
-	//~ $action=SeminarInfo::CUR_TALK;
-	//~ $talks = SeminarInfo::getLastTalk($db);
-//~ };
+if ( isset($_REQUEST["y"]) && isset($_REQUEST["m"]) )
+{ 
+	$action=SeminarInfo::YEAR_MONTH;
+	$talks = SeminarInfo::getTalksByMonth($db, $_REQUEST["y"], $_REQUEST["m"]);
+}
+elseif ( isset($_REQUEST["y"]) )
+{
+	$action=SeminarInfo::YEAR_ONLY;
+	//$talks = SeminarInfo::getTalksByYear($db, $_REQUEST["y"]);	
+	$talks = SeminarInfo::getLastTalk($db);
+};
+
+if ( count($talks) == 0 )
+{
+	$action=SeminarInfo::CUR_TALK;
+	$talks = SeminarInfo::getLastTalk($db);
+};
 
 $years = SeminarInfo::getYears($db);
 

@@ -3,8 +3,8 @@ DROP DATABASE if exists eumls;
 CREATE DATABASE IF NOT EXISTS eumls DEFAULT CHARACTER SET utf8;
 
 # create user
-create user 'eumls'@'localhost' identified by 'eumlsdbpass';
-GRANT ALL ON MLSSeminar.* TO 'eumls'@'localhost' IDENTIFIED BY 'eumlsdbpass';
+#create user if not exists 'eumls'@'localhost' identified by 'eumlsdbpass';
+GRANT ALL ON eumls.* TO 'eumls'@'localhost' IDENTIFIED BY 'eumlsdbpass';
 
 
 # create all tables
