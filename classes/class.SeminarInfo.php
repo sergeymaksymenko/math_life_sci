@@ -319,7 +319,7 @@ class SeminarInfo {
 	}
 	
 	
-	public static function getAllSeminarsShortList($db, $lang)
+	public static function getAllSeminarsShortList($db, $lang, $year="")
 	{
 		$lang_pref=array("en"=>"eng", "ua"=>"ukr", "ru"=>"rus");
 		$lang3=$lang_pref[$lang];
@@ -327,7 +327,8 @@ class SeminarInfo {
 		             "select t.id, concat(p.name_{$lang3}, ' ', p.surname_{$lang3}) as name, " . 
 		                     "t.title_{$lang3} as title, date_format(t.date, '%Y-%m-%d') as date from MLSSTalks as t " .
                       "join MLSSTalkSpeakers as s on t.id = s.talk_id " .
-                      "join MLSSParticipants as p on p.id = s.part_id "  .
+                      "join MLSSParticipants as p on p.id = s.part_id " .
+                      ( ($year=="") ? "" : "where year(t.date)={$year} " ) .
                  ") as q group by id order by date desc;";
                  
 		//print $query;
@@ -343,11 +344,37 @@ class SeminarInfo {
 		};
 		return $semlist;
 	}
+	
+	//~ public static function getAllSeminarsShortListByYear($db, $year, $lang)
+	//~ {
+		//~ $lang_pref=array("en"=>"eng", "ua"=>"ukr", "ru"=>"rus");
+		//~ $lang3=$lang_pref[$lang];
+		//~ $query = "select id, date, group_concat(' ', name) as speakers, title from (" .
+		             //~ "select t.id, concat(p.name_{$lang3}, ' ', p.surname_{$lang3}) as name, " . 
+		                     //~ "t.title_{$lang3} as title, date_format(t.date, '%Y-%m-%d') as date from MLSSTalks as t " .
+                      //~ "join MLSSTalkSpeakers as s on t.id = s.talk_id " .
+                      //~ "join MLSSParticipants as p on p.id = s.part_id "  .
+                      //~ "where year(t.date)={$year} " .
+                 //~ ") as q group by id order by date desc;";
+                 //~ 
+		//~ //print $query;
+		//~ $res = $db->run_query($query);
+		//~ if ($res==false)
+		//~ {
+			//~ return null;
+		//~ };
+		//~ $semlist = array();
+		//~ while( $row = mysql_fetch_array($res, MYSQL_ASSOC) )
+		//~ {
+			//~ $semlist[] = $row;
+		//~ };
+		//~ return $semlist;
+	//~ }	
 
 
-	public static function printAllSeminarsShortList($db, $lang)
+	public static function printAllSeminarsShortList($db, $lang, $year="")
 	{
-		$semlist = self::getAllSeminarsShortList($db, $lang);
+		$semlist = self::getAllSeminarsShortList($db, $lang, $year);
 		print "<ul align='left'>" .PHP_EOL;
 		foreach ($semlist as $row)
 		{

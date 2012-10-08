@@ -105,44 +105,89 @@ if ( !isset($page_description) )
 $cur_script = $_SERVER['PHP_SELF'];
 
 
-$talks=array();
-//$action=SeminarInfo::CUR_TALK;
+$action=SeminarInfo::CUR_TALK;
 //$talks = SeminarInfo::getLastTalk($db);
-
+// choose action 
 if ( isset($_REQUEST["a"]) )
 {
 	$action=SeminarInfo::ALL_SEMINARS;
 }
-else
+elseif ( isset($_REQUEST["p"]) )
 {
-	if ( isset($_REQUEST["p"]) )
-	{
-		$action=SeminarInfo::PARTICIPANT;
-		$talks = SeminarInfo::getTalksByParticipant($db, $_REQUEST["p"]);
-	}
-	elseif ( isset($_REQUEST["t"]) )
-	{
-		$action=SeminarInfo::TALK;
-		$talks = SeminarInfo::getTalksListById($db, $_REQUEST["t"]);
-	}
-	elseif ( isset($_REQUEST["y"]) && isset($_REQUEST["m"]) )
-	{ 
-		$action=SeminarInfo::YEAR_MONTH;
-		$talks = SeminarInfo::getTalksByMonth($db, $_REQUEST["y"], $_REQUEST["m"]);
-	}
-	elseif ( isset($_REQUEST["y"]) )
-	{
-		$action=SeminarInfo::YEAR_ONLY;
-		//$talks = SeminarInfo::getTalksByYear($db, $_REQUEST["y"]);	
-		$talks = SeminarInfo::getLastTalk($db);
-	};
-
-	if ( count($talks) == 0 )
-	{
-		$action=SeminarInfo::CUR_TALK;
-		$talks = SeminarInfo::getLastTalk($db);
-	};
+	$action=SeminarInfo::PARTICIPANT;
+//	$talks = SeminarInfo::getTalksByParticipant($db, $_REQUEST["p"]);
+}
+elseif ( isset($_REQUEST["t"]) )
+{
+	$action=SeminarInfo::TALK;
+//	$talks = SeminarInfo::getTalksListById($db, $_REQUEST["t"]);
+}
+elseif ( isset($_REQUEST["y"])  )
+{
+	$action=(isset($_REQUEST["m"])) ? SeminarInfo::YEAR_MONTH : SeminarInfo::YEAR_ONLY;
 };
+
+
+$talks=null;
+
+switch ($action){
+	case SeminarInfo::CUR_TALK :
+		$talks = SeminarInfo::getLastTalk($db);
+		break;
+		
+	case SeminarInfo::YEAR_MONTH :
+		$talks = SeminarInfo::getTalksByMonth($db, $_REQUEST["y"], $_REQUEST["m"]);
+		break;
+		
+	case SeminarInfo::TALK :
+		$talks = SeminarInfo::getTalksListById($db, $_REQUEST["t"]);
+		break;
+		
+	case SeminarInfo::PARTICIPANT :
+		$talks = SeminarInfo::getTalksByParticipant($db, $_REQUEST["p"]);
+		break;
+		
+	case SeminarInfo::YEAR_ONLY;
+		break;
+	
+	case SeminarInfo::ALL_SEMINARS:
+		break;
+};
+	
+	
+	
+	//~ 
+//~ $talks=array();
+//~ 
+//~ 
+//~ 
+//~ 
+//~ 
+//~ else
+//~ {
+	//~ elseif ( isset($_REQUEST["t"]) )
+	//~ {
+		//~ $action=SeminarInfo::TALK;
+		//~ $talks = SeminarInfo::getTalksListById($db, $_REQUEST["t"]);
+	//~ }
+	//~ elseif ( isset($_REQUEST["y"]) && isset($_REQUEST["m"]) )
+	//~ { 
+		//~ $action=SeminarInfo::YEAR_MONTH;
+		//~ $talks = SeminarInfo::getTalksByMonth($db, $_REQUEST["y"], $_REQUEST["m"]);
+	//~ }
+	//~ elseif ( isset($_REQUEST["y"]) )
+	//~ {
+		//~ $action=SeminarInfo::YEAR_ONLY;
+		//~ //$talks = SeminarInfo::getTalksByYear($db, $_REQUEST["y"]);	
+		//~ $talks = SeminarInfo::getLastTalk($db);
+	//~ };
+//~ 
+	//~ if ( count($talks) == 0 )
+	//~ {
+		//~ $action=SeminarInfo::CUR_TALK;
+		//~ $talks = SeminarInfo::getLastTalk($db);
+	//~ };
+//~ };
 
 
 

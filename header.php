@@ -45,27 +45,24 @@
 			
 			<?php
 
-			if ($action==SeminarInfo::ALL_SEMINARS)
+			switch($action)
 			{
-				$semlist = SeminarInfo::printAllSeminarsShortList($db, $lang);
-				//~ print "<ul align='left'>" .PHP_EOL;
-				//~ foreach ($semlist as $row)
-				//~ {
-					//~ print "<li><strong>" . $row["date"] . "</strong><br>" .
-					      //~ $row["speakers"] . 
-					       //~ "<br><i>" . $row["title"] . "</i></li>". PHP_EOL;
-				//~ };
-				//~ print "</ul>" .PHP_EOL;
-			}
-			else
-			{
-				foreach($talks as $t)
-				{
-					print "<div class=\"articles\">" . PHP_EOL;
-					$t->toHtml($lang); // include("contents.php"); 
-					print "</div><br>" .PHP_EOL;
-				};
+				case SeminarInfo::ALL_SEMINARS:
+					SeminarInfo::printAllSeminarsShortList($db, $lang);
+					break;
+				case SeminarInfo::YEAR_ONLY:
+					SeminarInfo::printAllSeminarsShortList($db, $lang, $_REQUEST["y"]);
+					break;
+				default:
+					foreach($talks as $t)
+					{
+						print "<div class=\"articles\">" . PHP_EOL;
+						$t->toHtml($lang); // include("contents.php"); 
+						print "</div><br>" .PHP_EOL;
+					};
+					break;
 			};
+
 			?>		
 		</div>
 		
