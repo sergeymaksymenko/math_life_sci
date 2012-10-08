@@ -110,17 +110,12 @@ class MLSTalk {
 		}
 		if ( count($this->files)>0 )
 		{
-			//print "<span id='abstracts'>";
-			foreach($this->files as $f)
+			$cnt=count($this->files);
+			for ($i=0; $i<$cnt-1; $i++)
 			{
-				//~ print "<a href=\"{$f->file}\"><font color='#FF4800'>{$f->descr}</font></a>";
-				print "<a href=\"{$f->file}\"><span id='abstract'>{$f->descr}</span></a>";
-				//~ if  ($f->file!="")
-				//~ {
-					//~ print "<a href=\"{$f->file}\">{$f->descr}</a> ";
-				//~ };
+				print "<a href=\"{$this->files[$i]->file}\"><span id='abstract'>{$this->files[$i]->descr}</span></a> &nbsp;|&nbsp; ";
 			};
-			print "<br>".PHP_EOL;
+			print "<a href=\"{$this->files[$cnt-1]->file}\"><span id='abstract'>{$this->files[$cnt-1]->descr}</span></a><br>" . PHP_EOL;
 		};		
 		//print "Place: <a href='{$this->place->url}'>{$this->place->title->s($lang)}</a>, {$this->place->address} <br>" .PHP_EOL;
 		//print "Room: {$this->room} <br>" .PHP_EOL;

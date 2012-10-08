@@ -144,7 +144,7 @@ CREATE TABLE `MLSSTalkFiles` (
 
 LOCK TABLES `MLSSTalkFiles` WRITE;
 /*!40000 ALTER TABLE `MLSSTalkFiles` DISABLE KEYS */;
-INSERT INTO `MLSSTalkFiles` VALUES (1,'abstracts/file_2011_02_18_Semenov.pdf','abstract'),(2,'abstracts/file_2011_03_11_LushchikNovitskiy.pdf','abstract'),(3,'abstracts/file_2011_03_25_Gerasymenko.pdf','abstract'),(5,'abstracts/file_2011_04_29_Burylko.pdf','abstract'),(6,'abstracts/file_2011_05_20_Bubnov.pdf','abstract'),(7,'abstracts/file_2011_09_16_Nastenko.pdf','abstract'),(11,'abstracts/file_2012_02_17_Novitskiy_Lushchik.pdf','abstract'),(17,'abstracts/file_2012_03_23_Nastenko.pdf','abstract');
+INSERT INTO `MLSSTalkFiles` VALUES (1,'abstracts/file_2011_02_18_Semenov.pdf','abstract'),(2,'abstracts/file_2011_03_11_LushchikNovitskiy.pdf','abstract'),(3,'abstracts/file_2011_03_25_Gerasymenko.pdf','abstract'),(5,'abstracts/file_2011_04_29_Burylko.pdf','abstract'),(6,'abstracts/file_2011_05_20_Bubnov.pdf','abstract'),(7,'abstracts/file_2011_09_16_Nastenko.pdf','abstract'),(11,'abstracts/file_2012_02_17_Novitskiy_Lushchik.pdf','abstract'),(17,'abstracts/file_2012_03_23_Nastenko.pdf','abstract'),(6,'abstracts/file_2011_05_20_Bubnov_1.pdf','presentation'),(8,'abstracts/file_2011_10_14_Kalmykov.pdf','presentation');
 /*!40000 ALTER TABLE `MLSSTalkFiles` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -210,4 +210,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2012-10-08 13:38:04
+-- Dump completed on 2012-10-08 14:33:06
