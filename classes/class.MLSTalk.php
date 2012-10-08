@@ -88,24 +88,26 @@ class MLSTalk {
   	public function toHtml($lang)
 	{
 		$Date = new LangStr("Date", "Дата", "Дата");
-		print "<a class='TALK_DATE'>{$Date->s($lang)}: {$this->date->format('Y-m-d, H:i')}</a><br>" .PHP_EOL;
-		print "<a class='TALK_TITLE'>{$this->title->s($lang)}</a> <br>" .PHP_EOL;
+		print "<span class='TALK_DATE'>{$Date->s($lang)}: {$this->date->format('Y-m-d, H:i')}</span><br>" .PHP_EOL;
+		print "<span class='TALK_TITLE'>{$this->title->s($lang)}</span> <br>" .PHP_EOL;
 		
 		foreach ($this->speakers as $sp)
 		{
-			print "<a class='SPEAKER_TITLE'>{$sp->name->s($lang)} {$sp->surname->s($lang)}</a>" .PHP_EOL;
+			//print_r($sp);
+			
+			print "<a href='index.php?&lang={$lang}&p={$sp->id}'><span class='SPEAKER_TITLE'>{$sp->name->s($lang)} {$sp->surname->s($lang)}</span></a>" .PHP_EOL;
 			$cnt=count($sp->organization);
 			if ($cnt==0)
 			{
 				print "<br>" . PHP_EOL;
 				continue;
 			};
-			print "<a class='SPEAKER_ORG'>(";
+			print "<span class='SPEAKER_ORG'>(";
 			for ($i=0; $i<$cnt-1; $i++)
 			{
 				print "{$sp->organization[$i]->title->s($lang)}, ";
 			}
-			print "{$sp->organization[$cnt-1]->title->s($lang)})</a>" . PHP_EOL;
+			print "{$sp->organization[$cnt-1]->title->s($lang)})</span>" . PHP_EOL;
 			print "<br>" . PHP_EOL;
 		}
 		if ( count($this->files)>0 )

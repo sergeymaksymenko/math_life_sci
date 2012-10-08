@@ -12,6 +12,8 @@ class SeminarInfo {
 	const YEAR_ONLY = 1;
 	const YEAR_MONTH = 2;
 	const ALL_SEMINARS = 3;
+	const PARTICIPANT = 4;
+	const TALK = 5;
 	
 	public function __construct() {	}
 	
@@ -264,11 +266,33 @@ class SeminarInfo {
 	
 	
 	
+	public static function getTalksByParticipant($db, $part_id)
+	{
+		$query = "select distinct t.id from MLSSTalks as t ".
+                 "join MLSSTalkSpeakers as s on t.id = s.talk_id " .
+                 "join MLSSParticipants as p on p.id = s.part_id " .
+                 "where p.id={$part_id} order by t.date desc;";
+                 
+		$res = $db->run_query($query);
+		if ($res==false)
+		{
+			return null;
+		};
+		$ids=array();
+		for($i=0; $i<mysql_num_rows($res); $i++)
+		{
+			$ids[] = mysql_result($res, $i, 0);
+		};
+		return self::getTalksListById($db, $ids);
+	}
+
+
+	
 	
 	public static function printAllSeminarsShortList1($db, $lang)
 	{
 		
-		$query = "select date, group_concat(' ', name) as speakers, title from (" .
+		$query = "select id, date, group_concat(' ', name) as speakers, title from (" .
 		             "select t.id, concat(p.name_{$lang}, ' ', p.surname_{$lang}) as name, " . 
 		                     "t.title_{$lang} as title, date_format(t.date, '%Y-%m-%d') as date from MLSSTalks as t " .
                       "join MLSSTalkSpeakers as s on t.id = s.talk_id " .
@@ -294,12 +318,14 @@ class SeminarInfo {
 		print "</table>" .PHP_EOL;
 	}
 	
-	public static function printAllSeminarsShortList($db, $lang)
+	
+	public static function getAllSeminarsShortList($db, $lang)
 	{
-		
-		$query = "select date, group_concat(' ', name) as speakers, title from (" .
-		             "select t.id, concat(p.name_{$lang}, ' ', p.surname_{$lang}) as name, " . 
-		                     "t.title_{$lang} as title, date_format(t.date, '%Y-%m-%d') as date from MLSSTalks as t " .
+		$lang_pref=array("en"=>"eng", "ua"=>"ukr", "ru"=>"rus");
+		$lang3=$lang_pref[$lang];
+		$query = "select id, date, group_concat(' ', name) as speakers, title from (" .
+		             "select t.id, concat(p.name_{$lang3}, ' ', p.surname_{$lang3}) as name, " . 
+		                     "t.title_{$lang3} as title, date_format(t.date, '%Y-%m-%d') as date from MLSSTalks as t " .
                       "join MLSSTalkSpeakers as s on t.id = s.talk_id " .
                       "join MLSSParticipants as p on p.id = s.part_id "  .
                  ") as q group by id order by date desc;";
@@ -316,6 +342,21 @@ class SeminarInfo {
 			$semlist[] = $row;
 		};
 		return $semlist;
+	}
+
+
+	public static function printAllSeminarsShortList($db, $lang)
+	{
+		$semlist = self::getAllSeminarsShortList($db, $lang);
+		print "<ul align='left'>" .PHP_EOL;
+		foreach ($semlist as $row)
+		{
+		print "<li><a href='index.php?lang={$lang}&t=".$row["id"]."'><span class='TALK_DATE'>" . $row["date"] . "</span></a><br>" .
+		      "<span class='TALK_TITLE'>" . $row["title"] . "</span><br>".
+		      "<span class='SPEAKER_TITLE'>" . $row["speakers"] . "</span><br>".
+		      "<br><br></li>". PHP_EOL;
+		};
+		print "</ul>" .PHP_EOL;
 	}
 
 	

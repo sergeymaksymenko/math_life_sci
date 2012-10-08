@@ -8,7 +8,7 @@ require_once("class.MLSOrganization.php");
 class MLSParticipant {
 	
 	private static $_id;
-	
+	public $id;
 	public $name;
 	public $middlename;
 	public $surname;
@@ -16,7 +16,11 @@ class MLSParticipant {
 	public $email;
 	public $homepage;
 	public $organization;
-
+//~ 
+	//~ public function getId()
+	//~ {
+		//~ return $_id;
+	//~ }
 	
 	public function __construct(LangStr $name, LangStr $middlename, LangStr $surname, $sex, $email, $homepage, $organization, $id=-1)
 	{

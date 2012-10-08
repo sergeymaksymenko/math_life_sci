@@ -12,6 +12,7 @@
 
 	<?php
 	$params = ( isset($_REQUEST["a"]) ? "&a" : "" ) .
+	          ( isset($_REQUEST["p"]) ? "&p=".$_REQUEST["p"] : "" ) .
 	          ( isset($_REQUEST["y"]) ? "&y=".$_REQUEST["y"] : "" ) .
 	          ( isset($_REQUEST["m"]) ? "&m=".$_REQUEST["m"] : "" );
 	
@@ -46,15 +47,15 @@
 
 			if ($action==SeminarInfo::ALL_SEMINARS)
 			{
-				$semlist = SeminarInfo::printAllSeminarsShortList($db, $lang3);
-				print "<ul align='left'>" .PHP_EOL;
-				foreach ($semlist as $row)
-				{
-					print "<li><strong>" . $row["date"] . "</strong><br>" .
-					      $row["speakers"] . 
-					       "<br><i>" . $row["title"] . "</i></li>". PHP_EOL;
-				};
-				print "</ul>" .PHP_EOL;
+				$semlist = SeminarInfo::printAllSeminarsShortList($db, $lang);
+				//~ print "<ul align='left'>" .PHP_EOL;
+				//~ foreach ($semlist as $row)
+				//~ {
+					//~ print "<li><strong>" . $row["date"] . "</strong><br>" .
+					      //~ $row["speakers"] . 
+					       //~ "<br><i>" . $row["title"] . "</i></li>". PHP_EOL;
+				//~ };
+				//~ print "</ul>" .PHP_EOL;
 			}
 			else
 			{

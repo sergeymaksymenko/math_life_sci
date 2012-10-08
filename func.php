@@ -52,7 +52,7 @@ else
 // list of languages
 $languages=array("en", "ua", "ru");
 
-$lang_pref=array("en"=>"eng", "ua"=>"ukr", "ru"=>"rus");
+
 
 //$languages=array("en", "ua");
 
@@ -66,8 +66,6 @@ else
 	$lang=$languages[0];
 };
 
-
-$lang3 = $lang_pref[$lang];
 
 
 
@@ -114,10 +112,20 @@ $talks=array();
 if ( isset($_REQUEST["a"]) )
 {
 	$action=SeminarInfo::ALL_SEMINARS;
-} 
+}
 else
 {
-	if ( isset($_REQUEST["y"]) && isset($_REQUEST["m"]) )
+	if ( isset($_REQUEST["p"]) )
+	{
+		$action=SeminarInfo::PARTICIPANT;
+		$talks = SeminarInfo::getTalksByParticipant($db, $_REQUEST["p"]);
+	}
+	elseif ( isset($_REQUEST["t"]) )
+	{
+		$action=SeminarInfo::TALK;
+		$talks = SeminarInfo::getTalksListById($db, $_REQUEST["t"]);
+	}
+	elseif ( isset($_REQUEST["y"]) && isset($_REQUEST["m"]) )
 	{ 
 		$action=SeminarInfo::YEAR_MONTH;
 		$talks = SeminarInfo::getTalksByMonth($db, $_REQUEST["y"], $_REQUEST["m"]);
