@@ -43,14 +43,14 @@ $talks[] = makeTalk( $part['Gerasymenko_V'],
 $talks[] = makeTalk( $part['Nastenko_E'],
                    'Проблемні питання моделювання нелінійних аспектів гемодинаміки',
                    'Проблемные вопросы моделирования нелинейных аспектов гемодинамики',
-                   'Hydrodynamic limit of nonlinear kinetic equations',
+                   'Problems in modelling of nonlinear aspects of hemodynamics',
                    '2011-04-15 16:00:00', '', 208, $orgs['imath']);
                    
                    
 $talks[] = makeTalk( $part['Burylko_O'],
                    'Нейронна модель Ходжкіна-Хакслі (Hodgkin-Huxley). Наслідки та застосування',
                    'Нейронная модель Ходжкина-Хаксли (Hodgkin-Huxley). Следствия и применения',
-                   'Modelling problems of nonlinear aspects of hemodynamics',
+                   'Hodgkin-Huxley neuron model. Consequences and applications',
                    '2011-04-29 16:00:00', 'abstracts/file_2011_04_29_Burylko.pdf', 208, $orgs['imath']);
                    
 $talks[] = makeTalk( $part['Bubnov_R'],
