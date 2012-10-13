@@ -10,10 +10,10 @@ require_once("database.php");
 
 
 class TablesNames {
-	const Organizations       ='MLSSOrganizations';
-	const Participants        ='MLSSParticipants';
-	const ParticipantsEmails  ='MLSSParticipantsEmails';
-	const ParticipantsOrg     ='MLSSParticipantOrganizations';
+	const Organizations       = 'MLSSOrganizations';
+	const Participants        = 'MLSSParticipants';
+	const ParticipantsEmails  = 'MLSSParticipantsEmails';
+	const ParticipantsOrg     = 'MLSSParticipantOrganizations';
 	const TalkSpeakers        = 'MLSSTalkSpeakers';
 	const TalkFiles           = 'MLSSTalkFiles';
 	const Talks               = 'MLSSTalks';
@@ -81,7 +81,7 @@ class SeminarInfo {
 		
 		// get emails
 		$email=array();
-		$query = "select * from " . TablesNames::ParticipantEmails .
+		$query = "select * from " . TablesNames::ParticipantsEmails .
 		         " where part_id={$id};";
 		$res = $db->run_query($query);
 		if ($res!=false)
