@@ -154,6 +154,11 @@ switch ($action){
 		break;
 };
 	
+	$params = ( isset($_REQUEST["a"]) ? "&a" : "" ) .
+	          ( isset($_REQUEST["p"]) ? "&p=".$_REQUEST["p"] : "" ) .
+	          ( isset($_REQUEST["y"]) ? "&y=".$_REQUEST["y"] : "" ) .
+	          ( isset($_REQUEST["m"]) ? "&m=".$_REQUEST["m"] : "" );
+
 	
 	
 	//~ 
@@ -279,7 +284,7 @@ if ($handle != false) {
 	                "{$cnt}=\tip=<a href=\"http://www.ipchecking.com/?ip={$ipaddr}&check=Lookup\" target=\"_blank\">{$ipaddr}</a>".
 	                ", date=". date('Y-m-d G:i:s') .
 	                ", lang=" . $lang .
-	                 ( ( isset($param) ) ? ", param=".$param : "" ) .
+	                 ( ( isset($params) ) ? ", params=".$params : "" ) .
 	                 PHP_EOL);
 	fclose($handle);
 };

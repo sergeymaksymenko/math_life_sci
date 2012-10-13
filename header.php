@@ -11,10 +11,6 @@
 	<div id="languages" style="text-align:right">
 
 	<?php
-	$params = ( isset($_REQUEST["a"]) ? "&a" : "" ) .
-	          ( isset($_REQUEST["p"]) ? "&p=".$_REQUEST["p"] : "" ) .
-	          ( isset($_REQUEST["y"]) ? "&y=".$_REQUEST["y"] : "" ) .
-	          ( isset($_REQUEST["m"]) ? "&m=".$_REQUEST["m"] : "" );
 	
 	foreach($languages as $l) : ?>
 		<a href="<?$cur_script?>?lang=<?=$l.$params?>"><?=$l?></a> &nbsp;&nbsp;
