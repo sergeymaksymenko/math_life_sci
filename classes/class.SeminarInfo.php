@@ -6,6 +6,22 @@ require_once("class.MLSParticipant.php");
 require_once("class.MLSTalk.php");
 require_once("database.php");
 
+
+
+
+class TablesNames {
+	const Organizations       ='MLSSOrganizations';
+	const Participants        ='MLSSParticipants';
+	const ParticipantsEmails  ='MLSSParticipantsEmails';
+	const ParticipantsOrg     ='MLSSParticipantOrganizations';
+	const TalkSpeakers        = 'MLSSTalkSpeakers';
+	const TalkFiles           = 'MLSSTalkFiles';
+	const Talks               = 'MLSSTalks';
+}
+
+
+
+
 class SeminarInfo {
 	
 	const CUR_TALK = 0;
@@ -19,7 +35,8 @@ class SeminarInfo {
 	
 	public static function getOrganizationById(Database $db, $id)
 	{
-		$query = "select * from MLSSOrganizations where id={$id};";
+		$query = "select * from " . TablesNames::Organizations .
+		         " where id={$id};";
 		$res = $db->run_query($query);
 		if ($res==false)
 		{
@@ -43,7 +60,8 @@ class SeminarInfo {
 
 	public static  function getParticipantById(Database $db, $id)
 	{
-		$query = "select * from MLSSParticipants where id={$id};";
+		$query = "select * from " . TablesNames::Participants .
+		         " where id={$id};";
 		$res = $db->run_query($query);
 		if ($res==false)
 		{
@@ -63,7 +81,8 @@ class SeminarInfo {
 		
 		// get emails
 		$email=array();
-		$query = "select * from MLSSParticipantEmails where part_id={$id};";
+		$query = "select * from " . TablesNames::ParticipantEmails .
+		         " where part_id={$id};";
 		$res = $db->run_query($query);
 		if ($res!=false)
 		{
@@ -78,7 +97,8 @@ class SeminarInfo {
 		
 		$homepage="";
 		$organization=array();
-		$query = "select * from MLSSParticipantOrganizations where part_id={$id};";
+		$query = "select * from " . TablesNames::ParticipantsOrg .
+		         " where part_id={$id};";
 		$res = $db->run_query($query);
 		if ($res!=false)
 		{
@@ -127,7 +147,7 @@ class SeminarInfo {
 	public static function getTalkById(Database $db, $id)
 	{
 		// get the lattest seminar
-		$query = "select * from MLSSTalks where id={$id};";
+		$query = "select * from " . TablesNames::Talks . " where id={$id};";
 		$res = $db->run_query($query);
 		if ($res==false)
 		{
@@ -152,7 +172,7 @@ class SeminarInfo {
 		
 		// get speakers
 		$speakers=array();
-		$query = "select * from MLSSTalkSpeakers where talk_id={$id};";
+		$query = "select * from " . TablesNames::TalkSpeakers . " where talk_id={$id};";
 		$res = $db->run_query($query);
 		if ($res!=false)
 		{
@@ -167,7 +187,7 @@ class SeminarInfo {
 		$files=array();
 		// get files
 		$files=array();
-		$query = "select * from MLSSTalkFiles where talk_id={$id};";
+		$query = "select * from " . TablesNames::TalkFiles . " where talk_id={$id};";
 		$res = $db->run_query($query);
 		if ($res!=false)
 		{
@@ -184,7 +204,7 @@ class SeminarInfo {
 	public static function getYears($db)
 	{
 		// get the lattest seminar
-		$query = "select distinct year(date) as Year from MLSSTalks order by date desc;";
+		$query = "select distinct year(date) as Year from " . TablesNames::Talks . " order by date desc;";
 		$res = $db->run_query($query);
 		if ($res==false)
 		{
@@ -203,7 +223,8 @@ class SeminarInfo {
 	public static function getMonths($db, $year)
 	{
 		// get the lattest seminar
-		$query = "select distinct month(date) as Month, year(date) as Year from MLSSTalks having Year={$year} order by date desc;";
+		$query = "select distinct month(date) as Month, year(date) as Year from " . TablesNames::Talks . 
+		         " having Year={$year} order by date desc;";
 		$res = $db->run_query($query);
 		if ($res==false)
 		{
@@ -222,7 +243,7 @@ class SeminarInfo {
 	
 	public static function getLastTalk($db)
 	{
-		$query = "select id from MLSSTalks order by date desc limit 1;";
+		$query = "select id from " . TablesNames::Talks . " order by date desc limit 1;";
 		$res = $db->run_query($query);
 		if ($res==false)
 		{
@@ -234,7 +255,8 @@ class SeminarInfo {
 	
 	public static function getTalksByYear($db, $year)
 	{
-		$query = "select id, year(date) as Year from MLSSTalks having year={$year} order by date desc;";
+		$query = "select id, year(date) as Year from " . TablesNames::Talks .
+		         " having year={$year} order by date desc;";
 		$res = $db->run_query($query);
 		if ($res==false)
 		{
@@ -250,7 +272,8 @@ class SeminarInfo {
 	
 	public static function getTalksByMonth($db, $year, $month)
 	{
-		$query = "select id, month(date) as Month, year(date) as Year from MLSSTalks having year={$year} and Month={$month} order by date desc;";
+		$query = "select id, month(date) as Month, year(date) as Year from " . TablesNames::Talks .
+		         " having year={$year} and Month={$month} order by date desc;";
 		$res = $db->run_query($query);
 		if ($res==false)
 		{
@@ -269,8 +292,8 @@ class SeminarInfo {
 	public static function getTalksByParticipant($db, $part_id)
 	{
 		$query = "select distinct t.id from MLSSTalks as t ".
-                 "join MLSSTalkSpeakers as s on t.id = s.talk_id " .
-                 "join MLSSParticipants as p on p.id = s.part_id " .
+                 "join " . TablesNames::TalkSpeakers . " as s on t.id = s.talk_id " .
+                 "join " . TablesNames::Participants . " as p on p.id = s.part_id " .
                  "where p.id={$part_id} order by t.date desc;";
                  
 		$res = $db->run_query($query);
@@ -294,9 +317,10 @@ class SeminarInfo {
 		
 		$query = "select id, date, group_concat(' ', name) as speakers, title from (" .
 		             "select t.id, concat(p.name_{$lang}, ' ', p.surname_{$lang}) as name, " . 
-		                     "t.title_{$lang} as title, date_format(t.date, '%Y-%m-%d') as date from MLSSTalks as t " .
-                      "join MLSSTalkSpeakers as s on t.id = s.talk_id " .
-                      "join MLSSParticipants as p on p.id = s.part_id "  .
+		                     "t.title_{$lang} as title, date_format(t.date, '%Y-%m-%d') as date " .
+		              "from " . TablesNames::Talks . " as t " .
+                      "join " . TablesNames::TalkSpeakers . " as s on t.id = s.talk_id " .
+                      "join " . TablesNames::Participants . " as p on p.id = s.part_id "  .
                  ") as q group by id order by date desc;";
                  
 		//print $query;
@@ -325,9 +349,10 @@ class SeminarInfo {
 		$lang3=$lang_pref[$lang];
 		$query = "select id, date, group_concat(' ', name) as speakers, title from (" .
 		             "select t.id, concat(p.name_{$lang3}, ' ', p.surname_{$lang3}) as name, " . 
-		                     "t.title_{$lang3} as title, date_format(t.date, '%Y-%m-%d') as date from MLSSTalks as t " .
-                      "join MLSSTalkSpeakers as s on t.id = s.talk_id " .
-                      "join MLSSParticipants as p on p.id = s.part_id " .
+		                     "t.title_{$lang3} as title, date_format(t.date, '%Y-%m-%d') as date " .
+		              "from " . TablesNames::Talks . " as t " .
+                      "join " . TablesNames::TalkSpeakers . " as s on t.id = s.talk_id " .
+                      "join " . TablesNames::Participants . " as p on p.id = s.part_id " .
                       ( ($year=="") ? "" : "where year(t.date)={$year} " ) .
                  ") as q group by id order by date desc;";
                  
