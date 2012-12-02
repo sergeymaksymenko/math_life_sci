@@ -12,7 +12,7 @@ require_once("database.php");
 class TablesNames {
 	const Organizations       = 'MLSSOrganizations';
 	const Participants        = 'MLSSParticipants';
-	const ParticipantsEmails  = 'MLSSParticipantsEmails';
+	const ParticipantsEmails  = 'MLSSParticipantEmails';
 	const ParticipantsOrg     = 'MLSSParticipantOrganizations';
 	const TalkSpeakers        = 'MLSSTalkSpeakers';
 	const TalkFiles           = 'MLSSTalkFiles';
@@ -31,7 +31,7 @@ class SeminarInfo {
 	const PARTICIPANT = 4;
 	const TALK = 5;
 	
-	public function __construct() {	}
+	public function __construct() { }
 	
 	public static function getOrganizationById(Database $db, $id)
 	{
@@ -149,16 +149,9 @@ class SeminarInfo {
 		// get the lattest seminar
 		$query = "select * from " . TablesNames::Talks . " where id={$id};";
 		$res = $db->run_query($query);
-		if ($res==false)
-		{
-			return null;
-		};
+		if ($res==false) return null;
 		$cnt=mysql_num_rows($res);
-		if (mysql_num_rows($res)==0)
-		{
-			return null;
-		};
-		
+		if ($cnt==0) return null;
 		
 		$tt = mysql_fetch_array($res, MYSQL_ASSOC);
 		
@@ -243,14 +236,31 @@ class SeminarInfo {
 	
 	public static function getLastTalk($db)
 	{
-		$query = "select id from " . TablesNames::Talks . " order by date desc limit 1;";
+		// get last date 
+		$query = "select max(date) as MaxDate from " . TablesNames::Talks . ";";
+		$res = $db->run_query($query);
+		if ($res==false) return null;
+		if (mysql_num_rows($res)==0) return null;
+		$row = mysql_fetch_assoc($res);
+		$date = new DateTime($row["MaxDate"]);
+		$date->sub(new DateInterval('P6D')); // minus 7 days
+		
+		$query = "select id from " . TablesNames::Talks . 
+		         " where date>='{$date->format('Y-m-d H:i:s')}' " .
+		         "order by date desc;";
+		// echo $query . "<br>\n";
+		         
 		$res = $db->run_query($query);
 		if ($res==false)
 		{
 			return null;
 		};
-		$id = mysql_result($res, 0, 0);
-		return self::getTalksListById($db, $id);
+		$ids=array();
+		for($i=0; $i<mysql_num_rows($res); $i++)
+		{
+			$ids[] = mysql_result($res, $i, 0);
+		};
+		return self::getTalksListById($db, $ids);
 	}
 	
 	public static function getTalksByYear($db, $year)
@@ -347,15 +357,28 @@ class SeminarInfo {
 	{
 		$lang_pref=array("en"=>"eng", "ua"=>"ukr", "ru"=>"rus");
 		$lang3=$lang_pref[$lang];
-		$query = "select id, date, group_concat(' ', name) as speakers, title from (" .
+		//~ $query = "select id, date, group_concat(' ', name) as speakers, title from (" .
+		             //~ "select t.id, concat(p.name_{$lang3}, ' ', p.surname_{$lang3}) as name, " . 
+		                     //~ "t.title_{$lang3} as title, date_format(t.date, '%Y-%m-%d') as date " .
+		              //~ "from " . TablesNames::Talks . " as t " .
+                      //~ "join " . TablesNames::TalkSpeakers . " as s on t.id = s.talk_id " .
+                      //~ "join " . TablesNames::Participants . " as p on p.id = s.part_id " .
+                      //~ ( ($year=="") ? "" : "where year(t.date)={$year} " ) .
+                 //~ ") as q group by id order by date desc;";
+                 
+		$query = "select id, date, group_concat(' ', name) as speakers, title, org, org_url from (" .
 		             "select t.id, concat(p.name_{$lang3}, ' ', p.surname_{$lang3}) as name, " . 
+		                     "o.title_{$lang3} as org, o.url as org_url, " .
 		                     "t.title_{$lang3} as title, date_format(t.date, '%Y-%m-%d') as date " .
 		              "from " . TablesNames::Talks . " as t " .
                       "join " . TablesNames::TalkSpeakers . " as s on t.id = s.talk_id " .
                       "join " . TablesNames::Participants . " as p on p.id = s.part_id " .
+                      "join " . TablesNames::ParticipantsOrg . " as po on po.part_id = s.part_id " .
+                      "join " . TablesNames::Organizations . " as o on o.id = po.org_id " .
                       ( ($year=="") ? "" : "where year(t.date)={$year} " ) .
                  ") as q group by id order by date desc;";
-                 
+
+
 		//print $query;
 		$res = $db->run_query($query);
 		if ($res==false)
@@ -405,7 +428,8 @@ class SeminarInfo {
 		{
 		print "<li><a href='index.php?lang={$lang}&t=".$row["id"]."'><span class='TALK_DATE'>" . $row["date"] . "</span></a><br>" .
 		      "<span class='TALK_TITLE'>" . $row["title"] . "</span><br>".
-		      "<span class='SPEAKER_TITLE'>" . $row["speakers"] . "</span><br>".
+		      "<span class='SPEAKER_TITLE'>" . $row["speakers"] . "</span> " .
+		      "<span class='SPEAKER_ORG'>(<a href='{$row['org_url']}'>" . $row["org"] . "</a>)</span><br>".
 		      "<br><br></li>". PHP_EOL;
 		};
 		print "</ul>" .PHP_EOL;

@@ -103,12 +103,21 @@ class MLSTalk {
 				continue;
 			};
 			print "<span class='SPEAKER_ORG'>(";
-			for ($i=0; $i<$cnt-1; $i++)
+			$firstOrg=true;
+			for ($i=0; $i<$cnt; $i++)
 			{
-				print "{$sp->organization[$i]->title->s($lang)}, ";
+				if ($firstOrg) { $firstOrg = false; } else { $firstOrg=true; print ", "; };
+				if ($sp->organization[$i]->url=="")
+				{
+					print "{$sp->organization[$i]->title->s($lang)}";
+				}
+				else
+				{
+					print "<a href='{$sp->organization[$i]->url}'>{$sp->organization[$i]->title->s($lang)}</a>";
+				}
 			}
-			print "{$sp->organization[$cnt-1]->title->s($lang)})</span>" . PHP_EOL;
-			print "<br>" . PHP_EOL;
+			//print "{$sp->organization[$cnt-1]->title->s($lang)})</span>" . PHP_EOL;
+			print ")<br>" . PHP_EOL;
 		}
 		if ( count($this->files)>0 )
 		{

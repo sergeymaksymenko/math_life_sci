@@ -1,0 +1,1 @@
+mysql eumls -u eumls -p < eumls.sql

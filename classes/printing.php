@@ -307,7 +307,42 @@ function print_query_results($result, InputList $theObj, $fieldInd, $fieldCaptio
 	};
 	echo "</table>\n";
 	return true;
-
 };
+
+
+
+
+function print_query_res($result)
+{
+	if ($result==false) return false;
+	$rowsCnt = mysql_numrows($result);
+	$colsCnt=mysql_num_fields($result);
+
+
+	// start printing table 
+	echo "<table border='1' cellspacing='0' cellpadding='0' >\n";
+
+	// print table header
+	echo "<tr>\n";
+	for ($i=0; $i<$colsCnt; $i++)
+	{
+		echo "<th>" . mysql_fetch_field($result, $i)->name . "</th>";
+	};
+	echo "</tr>\n";
+	
+    // print table contents
+	for ($r=0; $r<$rowsCnt; $r++)
+	{
+		echo "<tr>\n";
+		for ($i=0; $i<$colsCnt; $i++)
+		{
+			echo "<td>" . mysql_result($result, $r, $i) . "</td>";
+		};
+		echo "\n</tr>\n";
+	};
+	echo "</table>\n";
+};
+
+
 
 ?>
