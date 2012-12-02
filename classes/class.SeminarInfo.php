@@ -429,7 +429,7 @@ class SeminarInfo {
 		print "<li><a href='index.php?lang={$lang}&t=".$row["id"]."'><span class='TALK_DATE'>" . $row["date"] . "</span></a><br>" .
 		      "<span class='TALK_TITLE'>" . $row["title"] . "</span><br>".
 		      "<span class='SPEAKER_TITLE'>" . $row["speakers"] . "</span> " .
-		      "<span class='SPEAKER_ORG'>(<a href='{$row['org_url']}'>" . $row["org"] . "</a>)</span><br>".
+		      "<span class='SPEAKER_ORG'>(<a href='{$row['org_url']}' target='blank'>" . $row["org"] . "</a>)</span><br>".
 		      "<br><br></li>". PHP_EOL;
 		};
 		print "</ul>" .PHP_EOL;

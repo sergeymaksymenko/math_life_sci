@@ -113,7 +113,7 @@ class MLSTalk {
 				}
 				else
 				{
-					print "<a href='{$sp->organization[$i]->url}'>{$sp->organization[$i]->title->s($lang)}</a>";
+					print "<a href='{$sp->organization[$i]->url}' target='blank'>{$sp->organization[$i]->title->s($lang)}</a>";
 				}
 			}
 			//print "{$sp->organization[$cnt-1]->title->s($lang)})</span>" . PHP_EOL;
